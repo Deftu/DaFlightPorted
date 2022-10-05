@@ -3,6 +3,7 @@ import groovy.lang.MissingPropertyException
 pluginManagement {
     repositories {
         // Default repositories
+        mavenLocal()
         gradlePluginPortal()
         mavenCentral()
 
@@ -18,7 +19,6 @@ pluginManagement {
         // Snapshots
         maven("https://maven.unifycraft.xyz/snapshots")
         maven("https://s01.oss.sonatype.org/content/groups/public/")
-        mavenLocal()
     }
 
     plugins {
@@ -26,7 +26,7 @@ pluginManagement {
         kotlin("jvm") version(kotlin)
         kotlin("plugin.serialization") version(kotlin)
 
-        val ucgt = "1.11.0"
+        val ucgt = "1.11.5"
         id("xyz.unifycraft.gradle.multiversion-root") version(ucgt)
     }
 }

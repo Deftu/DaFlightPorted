@@ -1,8 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import com.modrinth.minotaur.dependencies.ModDependency
-import com.modrinth.minotaur.dependencies.DependencyType
 import xyz.unifycraft.gradle.utils.GameSide
-import xyz.unifycraft.gradle.tools.CurseDependency
 
 plugins {
     java
@@ -18,7 +15,12 @@ loomHelper {
 }
 
 repositories {
-    maven("https://maven.terraformersmc.com/")
+    removeIf {
+        it is MavenArtifactRepository && it.url.toString().contains("unifycraft")
+    }
+    maven("https://maven.terraformersmc.com/releases")
+    maven("https://maven.shedaniel.me/")
+    maven("https://maven.isxander.dev/releases")
     mavenCentral()
 }
 
@@ -32,6 +34,9 @@ dependencies {
     }}")
     modImplementation("net.fabricmc:fabric-language-kotlin:1.8.2+kotlin.1.7.10")
 
+    modApi("me.shedaniel.cloth:cloth-config-fabric:8.2.88") {
+        exclude(group = "net.fabricmc.fabric-api")
+    }
     modImplementation("com.terraformersmc:modmenu:${when (mcData.version) {
         11902 -> "4.0.4"
         11802 -> "3.2.3"

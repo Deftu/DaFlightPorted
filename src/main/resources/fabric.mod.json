@@ -3,31 +3,23 @@
     "id": "${mod_id}",
     "version": "${mod_version}",
     "name": "${mod_name}",
-    "description": "I'm a template mod!",
+    "description": "Made for Aedesius#3652 - 05/10/22",
     "authors": [
-        "Template Guy"
+        "Deftu"
     ],
-    "contributors": [
-        "Template Contributor"
-    ],
-    "contact": {
-        "homepage": "...",
-        "issues": "...",
-        "sources": "..."
-    },
     "license": "LGPL 3.0",
     "environment": "*",
     "entrypoints": {
         "client": [
             {
                 "adapter": "kotlin",
-                "value": "xyz.deftu.template.client.TemplateModClient"
+                "value": "xyz.deftu.daflight.client.DaFlightClient"
             }
         ],
         "main": [
             {
                 "adapter": "kotlin",
-                "value": "xyz.deftu.template.TemplateMod"
+                "value": "xyz.deftu.daflight.DaFlight"
             }
         ]
     },
