@@ -1,24 +1,27 @@
 package xyz.deftu.daflight.handlers
 
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.font.TextRenderer
+import net.minecraft.client.util.math.MatrixStack
 import xyz.deftu.daflight.DaFlight
 
 object HudHandler {
+    private val textRenderer: TextRenderer
+        get() = MinecraftClient.getInstance().textRenderer
+
     @JvmStatic
-    fun render() {
+    fun render(stack: MatrixStack) {
         if (DaFlight.config.hud && DaFlight.isGameFocused() && !MinecraftClient.getInstance().options.debugEnabled) {
-            var x = 5
-            var y = 5
-            var active = false
+            val x = 5f
+            var y = 5f
 
             if (MovementHandler.isFlying()) {
-                active = true
-                // TODO
+                textRenderer.draw(stack, "flying" + if (MovementHandler.isFlyBoosting()) "+" else "", x, y, 0xFFFFFF)
+                y += 9
             }
 
             if (MovementHandler.isSprinting()) {
-                active = true
-                // TODO
+                textRenderer.draw(stack, "sprinting" + if (MovementHandler.isSprintBoosting()) "+" else "", x, y, 0xFFFFFF)
             }
         }
     }

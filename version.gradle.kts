@@ -8,6 +8,7 @@ plugins {
     id("xyz.unifycraft.gradle.multiversion")
     id("xyz.unifycraft.gradle.tools")
     id("xyz.unifycraft.gradle.tools.loom")
+    id("xyz.unifycraft.gradle.tools.blossom")
 }
 
 loomHelper {
@@ -28,7 +29,7 @@ dependencies {
     implementation(kotlin("stdlib"))
 
     modImplementation("net.fabricmc.fabric-api:fabric-api:${when (mcData.version) {
-        11902 -> "0.57.0+1.19"
+        11902 -> "0.62.0+1.19.2"
         11802 -> "0.57.0+1.18.2"
         else -> throw IllegalStateException("Invalid MC version: ${mcData.version}")
     }}")
@@ -38,7 +39,7 @@ dependencies {
         exclude(group = "net.fabricmc.fabric-api")
     }
     modImplementation("com.terraformersmc:modmenu:${when (mcData.version) {
-        11902 -> "4.0.4"
+        11902 -> "4.0.6"
         11802 -> "3.2.3"
         else -> throw IllegalStateException("Invalid MC version: ${mcData.version}")
     }}")

@@ -8,18 +8,18 @@
         "Deftu"
     ],
     "license": "LGPL 3.0",
-    "environment": "*",
+    "environment": "client",
     "entrypoints": {
         "client": [
             {
                 "adapter": "kotlin",
-                "value": "xyz.deftu.daflight.client.DaFlightClient"
+                "value": "xyz.deftu.daflight.DaFlight"
             }
         ],
-        "main": [
+        "modmenu": [
             {
                 "adapter": "kotlin",
-                "value": "xyz.deftu.daflight.DaFlight"
+                "value": "xyz.deftu.daflight.utils.ModMenuIntegration"
             }
         ]
     },
@@ -27,7 +27,7 @@
         "${mod_id}.mixins.json"
     ],
     "depends": {
-        "fabric-api": "*",
+        "fabric": "*",
         "fabricloader": ">=0.14.9",
         "fabric-language-kotlin": "*",
         "minecraft": "~${mc_version}",

@@ -27,8 +27,7 @@ public abstract class AbstractClientPlayerEntityMixin extends PlayerEntity {
     }
 
     public void move(MovementType type, Vec3d vec) {
-        PlayerEntity player = this;
-        if (player == MinecraftClient.getInstance().player) {
+        if ((PlayerEntity) this == MinecraftClient.getInstance().player) {
             dfp$updateFlyStatus();
             dfp$heading.set(vec.x, vec.y, vec.z);
             dfp$rotation.set(getPitch(), getYaw());

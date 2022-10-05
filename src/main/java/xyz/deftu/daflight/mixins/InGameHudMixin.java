@@ -12,6 +12,6 @@ import xyz.deftu.daflight.handlers.HudHandler;
 public class InGameHudMixin {
     @Inject(method = "render", at = @At("RETURN"))
     private void dfp$onHudRendered(MatrixStack stack, float tickDelta, CallbackInfo ci) {
-        HudHandler.render();
+        HudHandler.render(stack);
     }
 }

@@ -52,7 +52,9 @@ object MovementHandler {
     }
 
     fun isFlying() = flying
+    fun isFlyBoosting() = flyBoosting
     fun isSprinting() = sprinting
+    fun isSprintBoosting() = sprintBoosting
     @JvmStatic
     fun shouldDisableFov() = DaFlight.config.disableFov && flying
     @JvmStatic
