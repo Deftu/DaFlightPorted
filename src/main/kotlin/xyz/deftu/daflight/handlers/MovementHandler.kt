@@ -1,6 +1,7 @@
 package xyz.deftu.daflight.handlers
 
 import xyz.deftu.daflight.DaFlight
+import xyz.deftu.daflight.utils.FlightMode
 import xyz.deftu.daflight.utils.Rotation
 import xyz.deftu.daflight.utils.Vector3D
 import kotlin.math.*
@@ -46,15 +47,31 @@ object MovementHandler {
         if (!sprinting || !DaFlight.config.toggle)
             return original
 
-        val boost = if (sprintBoosting) DaFlight.config.sprintBoost else 1.0
-        val speed = min(DaFlight.config.sprintSpeed * DaFlight.config.jumpModifier * boost, maxWalkSpeed * 5.0)
-        return original * speed.toFloat()
+        val boost = if (sprintBoosting) DaFlight.config.sprintBoost else 1f
+        val speed = min(DaFlight.config.sprintSpeed * DaFlight.config.jumpModifier * boost, maxWalkSpeed * 5f)
+        return original * speed
     }
 
     fun isFlying() = flying
+    fun setFlying(state: Boolean) {
+        flying = state
+    }
+
     fun isFlyBoosting() = flyBoosting
+    fun setFlyBoosting(state: Boolean) {
+        flyBoosting = state
+    }
+
     fun isSprinting() = sprinting
+    fun setSprinting(state: Boolean) {
+        sprinting = state
+    }
+
     fun isSprintBoosting() = sprintBoosting
+    fun setSprintBoosting(state: Boolean) {
+        sprintBoosting = state
+    }
+
     @JvmStatic
     fun shouldDisableFov() = DaFlight.config.disableFov && flying
     @JvmStatic
@@ -63,8 +80,8 @@ object MovementHandler {
     private fun moveFlying(vec: Vector3D, rotation: Rotation) {
         val strafeMod = DaFlight.config.strafeModifier
         val ascendMod = DaFlight.config.verticalModifier
-        val boost = if (flyBoosting) DaFlight.config.flyBoost else 1.0
-        val speed = (DaFlight.config.flySpeed * boost).coerceAtMost(maxFlySpeed.toDouble())
+        val boost = if (flyBoosting) DaFlight.config.flyBoost else 1f
+        val speed = (DaFlight.config.flySpeed * boost).coerceAtMost(maxFlySpeed)
 
         val pitch = Math.toRadians(rotation.pitch.toDouble())
         val yaw = Math.toRadians(rotation.yaw.toDouble())
@@ -74,14 +91,14 @@ object MovementHandler {
         vec.set(dx * moveForward, 0.0, dz * moveForward)
         vec.add(dz * moveStrafe * strafeMod, 0.0, -dx * moveStrafe * strafeMod)
 
-        if (DaFlight.isGameFocused()) {
-            if (DaFlight.flyUpKeyBind.isPressed)
-                vec.add(0.0, ascendMod, 0.0)
-            if (DaFlight.flyDownKeyBind.isPressed)
-                vec.add(0.0, -ascendMod, 0.0)
+        if (!DaFlight.isGameUnfocused()) {
+            if (InputHandler.flyUpKeyBind.isPressed)
+                vec.add(0.0, ascendMod.toDouble(), 0.0)
+            if (InputHandler.flyDownKeyBind.isPressed)
+                vec.add(0.0, -ascendMod.toDouble(), 0.0)
         }
 
-        if (DaFlight.config.flight3d) {
+        if (DaFlight.config.flyMode == FlightMode.THREE_DIMENSIONAL) {
             val vy = -sin(pitch)
             val hy = abs(cos(pitch))
             vec.mult(hy, 1.0, hy)
@@ -89,13 +106,13 @@ object MovementHandler {
         }
 
         vec.norm()
-        vec.mult(speed)
+        vec.mult(speed.toDouble())
     }
 
     private fun moveSprinting(vec: Vector3D, rotation: Rotation) {
-        val strafeMod: Double = DaFlight.config.strafeModifier
-        val boost: Double = if (sprintBoosting) DaFlight.config.sprintBoost else 1.0
-        val speed = (DaFlight.config.sprintSpeed * boost).coerceAtLeast(maxWalkSpeed.toDouble())
+        val strafeMod = DaFlight.config.strafeModifier
+        val boost = if (sprintBoosting) DaFlight.config.sprintBoost else 1f
+        val speed = (DaFlight.config.sprintSpeed * boost).coerceAtLeast(maxWalkSpeed)
 
         val rads = Math.toRadians(rotation.yaw.toDouble())
         val dx = -sin(rads)
@@ -103,6 +120,6 @@ object MovementHandler {
 
         vec.add(dx * moveForward, 0.0, dz * moveForward)
         vec.add(dz * moveStrafe * strafeMod, 0.0, -dx * moveStrafe * strafeMod)
-        vec.mult(speed, 1.0, speed)
+        vec.mult(speed.toDouble(), 1.0, speed.toDouble())
     }
 }

@@ -1,0 +1,15 @@
+{
+    "text.autoconfig.daflight.option.toggle": "Toggle",
+    "text.autoconfig.daflight.option.hud": "HUD Toggle",
+
+    "text.autoconfig.daflight.option.strafeModifier": "Strafe Modifier",
+    "text.autoconfig.daflight.option.verticalModifier": "Ascend Modifier",
+    "text.autoconfig.daflight.option.jumpModifier": "Jump Modifier",
+
+    "text.autoconfig.daflight.option.flyBoost": "Fly Boost",
+    "text.autoconfig.daflight.option.flySpeed": "Fly Speed",
+    "text.autoconfig.daflight.option.flyMode": "Flight Mode",
+
+    "text.autoconfig.daflight.option.sprintBoost": "Sprint Boost",
+    "text.autoconfig.daflight.option.sprintSpeed": "Sprint Speed"
+}

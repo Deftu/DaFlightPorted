@@ -1,15 +1,11 @@
 package xyz.deftu.daflight
 
 import me.shedaniel.autoconfig.AutoConfig
-import me.shedaniel.autoconfig.serializer.GsonConfigSerializer
-import me.shedaniel.clothconfig2.api.ConfigBuilder
 import net.fabricmc.api.ClientModInitializer
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.network.ClientPlayerEntity
-import net.minecraft.client.option.KeyBinding
-import net.minecraft.client.util.InputUtil
-import net.minecraft.text.Text
+import xyz.deftu.daflight.handlers.HudHandler
+import xyz.deftu.daflight.handlers.InputHandler
 
 object DaFlight : ClientModInitializer {
     const val NAME = "@MOD_NAME@"
@@ -34,32 +30,10 @@ object DaFlight : ClientModInitializer {
     @JvmStatic
     var currentServerName = ""
 
-    @JvmStatic
-    lateinit var flyKeyBind: KeyBinding
-        private set
-    @JvmStatic
-    lateinit var sprintKeyBind: KeyBinding
-        private set
-    @JvmStatic
-    lateinit var boostKeyBind: KeyBinding
-        private set
-    @JvmStatic
-    lateinit var flyUpKeyBind: KeyBinding
-        private set
-    @JvmStatic
-    lateinit var flyDownKeyBind: KeyBinding
-        private set
-
     override fun onInitializeClient() {
-        AutoConfig.register(DaFlightConfig::class.java) { config, clz ->
-            GsonConfigSerializer(config, clz)
-        }
-
-        flyKeyBind = KeyBinding("Fly", InputUtil.GLFW_KEY_G, NAME).also(KeyBindingHelper::registerKeyBinding)
-        sprintKeyBind = KeyBinding("Sprint", InputUtil.GLFW_KEY_R, NAME).also(KeyBindingHelper::registerKeyBinding)
-        boostKeyBind = KeyBinding("Fly boost", InputUtil.GLFW_KEY_R, NAME).also(KeyBindingHelper::registerKeyBinding)
-        flyUpKeyBind = KeyBinding("Fly up", InputUtil.GLFW_KEY_UP, NAME).also(KeyBindingHelper::registerKeyBinding)
-        flyDownKeyBind = KeyBinding("Fly down", InputUtil.GLFW_KEY_DOWN, NAME).also(KeyBindingHelper::registerKeyBinding)
+        DaFlightConfig.register()
+        HudHandler.initialize()
+        InputHandler.initialize()
 
         initialized = true
     }
@@ -67,9 +41,21 @@ object DaFlight : ClientModInitializer {
     @JvmStatic
     fun isPlayerPresent() = player != null
     @JvmStatic
-    fun isGameFocused() = MinecraftClient.getInstance().isPaused && MinecraftClient.getInstance().isWindowFocused
+    fun isGameUnfocused() = MinecraftClient.getInstance().isPaused || MinecraftClient.getInstance().isWindowFocused
     @JvmStatic
     fun getPlayerForwardMovement() = if (isPlayerPresent()) player!!.input.movementForward else 0f
     @JvmStatic
     fun getPlayerStrafeMovement() = if (isPlayerPresent()) player!!.input.movementSideways else 0f
+    fun isFlyingAllowed() = isPlayerPresent() && (singleplayerState || player!!.abilities.allowFlying)
+    fun isPlayerInvincible() = player?.isSpectator == true || player?.abilities?.creativeMode == true
+
+    fun setPlayerInvincible(state: Boolean) {
+        if (!MinecraftClient.getInstance().isInSingleplayer || isPlayerInvincible())
+            return
+
+        val clientPlayer = player ?: return
+        val server = MinecraftClient.getInstance().server ?: return
+        val player = server.playerManager.getPlayer(clientPlayer.uuid)
+        player?.abilities?.invulnerable = state
+    }
 }

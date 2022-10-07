@@ -1,21 +1,54 @@
 package xyz.deftu.daflight
 
+import me.shedaniel.autoconfig.AutoConfig
 import me.shedaniel.autoconfig.ConfigData
 import me.shedaniel.autoconfig.annotation.Config
+import me.shedaniel.autoconfig.annotation.ConfigEntry
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer
+import xyz.deftu.daflight.utils.FlightMode
 
 @Config(name = DaFlight.ID)
 class DaFlightConfig : ConfigData {
+    companion object {
+        @ConfigEntry.Gui.Excluded
+        private var registered = false
+
+        fun register() {
+            if (registered)
+                throw UnsupportedOperationException("Config has already been registered!")
+
+            AutoConfig.register(DaFlightConfig::class.java) { config, clz ->
+                GsonConfigSerializer(config, clz)
+            }
+
+            registered = true
+        }
+    }
+
     var toggle = true
-
     var hud = true
-
+    var flyMode = FlightMode.NORMAL
+    @ConfigEntry.Gui.Excluded
     var disableFov = true
-    var strafeModifier = 0.0
-    var verticalModifier = 0.0
-    var flyBoost = 0.0
-    var flySpeed = 0f
-    var flight3d = false
-    var sprintBoost = 0.0
-    var sprintSpeed = 0f
-    var jumpModifier = 0f
+
+    @ConfigEntry.Gui.CollapsibleObject
+    var input = Input()
+
+    var strafeModifier = 1f
+    var verticalModifier = 1f
+    var jumpModifier = 1f
+
+    var flyBoost = 2f
+    var flySpeed = 1f
+
+    var sprintBoost = 2f
+    var sprintSpeed = 1f
+
+    class Input {
+        var flyKeyBind = true
+        var sprintKeyBind = true
+        var boostKeyBind = true
+        var flyUpKeyBind = true
+        var flyDownKeyBind = true
+    }
 }
