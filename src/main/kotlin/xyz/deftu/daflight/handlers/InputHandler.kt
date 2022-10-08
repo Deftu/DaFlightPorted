@@ -27,12 +27,12 @@ object InputHandler {
     fun initialize() {
         flyKeyBind = setupKeybind("Fly", InputUtil.GLFW_KEY_G)
         sprintKeyBind = setupKeybind("Sprint", InputUtil.GLFW_KEY_R)
-        boostKeyBind = setupKeybind("Fly boost", InputUtil.GLFW_KEY_R)
-        flyUpKeyBind = setupKeybind("Fly up", InputUtil.GLFW_KEY_UP)
-        flyDownKeyBind = setupKeybind("Fly down", InputUtil.GLFW_KEY_DOWN)
+        boostKeyBind = setupKeybind("Fly Boost", InputUtil.GLFW_KEY_R)
+        flyUpKeyBind = setupKeybind("Fly Up", InputUtil.GLFW_KEY_UP)
+        flyDownKeyBind = setupKeybind("Fly Down", InputUtil.GLFW_KEY_DOWN)
 
         ClientTickEvents.END_CLIENT_TICK.register { client ->
-            if (client.world == null || !DaFlight.isGameUnfocused())
+            if (client.world == null || DaFlight.isGameInactive())
                 return@register
 
             handle()
@@ -50,6 +50,11 @@ object InputHandler {
         if (config.input.flyKeyBind) {
             MovementHandler.setFlying(if (flyKeyBind.isTogglePressed) !MovementHandler.isFlying() && DaFlight.isFlyingAllowed() else MovementHandler.isFlying())
         } else MovementHandler.setFlying(flyKeyBind.isPressed && DaFlight.isFlyingAllowed())
+
+        if (config.input.flyUpKeyBind)
+            MovementHandler.setAscending(flyUpKeyBind.isPressed)
+        if (config.input.flyDownKeyBind)
+            MovementHandler.setDescending(flyDownKeyBind.isPressed)
 
         if (config.input.sprintKeyBind) {
             MovementHandler.setSprinting(if (sprintKeyBind.isTogglePressed) !MovementHandler.isSprinting() && DaFlight.isFlyingAllowed() else MovementHandler.isSprinting())
@@ -100,5 +105,7 @@ object InputHandler {
             } else state.second
         }
     private fun setupKeybind(name: String, key: Int): KeyBinding =
-        KeyBinding(name, key, DaFlight.NAME).also(KeyBindingHelper::registerKeyBinding).also { keyBindPressToggle.put(it, System.currentTimeMillis() to false) }
+        KeyBinding(name, key, DaFlight.NAME).also(KeyBindingHelper::registerKeyBinding).also {
+            keyBindPressToggle[it] = System.currentTimeMillis() to false
+        }
 }

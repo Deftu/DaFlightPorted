@@ -17,11 +17,7 @@ object HudHandler {
     }
 
     private fun render(stack: MatrixStack) {
-        println("hud toggle: ${DaFlight.config.hud}")
-        println("game unfocused: ${DaFlight.isGameUnfocused()}")
-        println("debug enabled: ${MinecraftClient.getInstance().options.debugEnabled}")
-        if (DaFlight.config.hud && !DaFlight.isGameUnfocused() && !MinecraftClient.getInstance().options.debugEnabled) {
-            println("hud should be rendering?!")
+        if (DaFlight.config.hud && !DaFlight.isGameInactive() && !MinecraftClient.getInstance().options.debugEnabled) {
             val x = 5f
             var y = 5f
 

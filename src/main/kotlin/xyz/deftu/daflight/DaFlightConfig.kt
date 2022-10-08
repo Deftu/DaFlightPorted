@@ -9,22 +9,6 @@ import xyz.deftu.daflight.utils.FlightMode
 
 @Config(name = DaFlight.ID)
 class DaFlightConfig : ConfigData {
-    companion object {
-        @ConfigEntry.Gui.Excluded
-        private var registered = false
-
-        fun register() {
-            if (registered)
-                throw UnsupportedOperationException("Config has already been registered!")
-
-            AutoConfig.register(DaFlightConfig::class.java) { config, clz ->
-                GsonConfigSerializer(config, clz)
-            }
-
-            registered = true
-        }
-    }
-
     var toggle = true
     var hud = true
     var flyMode = FlightMode.NORMAL
@@ -50,5 +34,20 @@ class DaFlightConfig : ConfigData {
         var boostKeyBind = true
         var flyUpKeyBind = true
         var flyDownKeyBind = true
+    }
+}
+
+internal object DaFlightConfigBootstrap {
+    private var registered = false
+
+    fun register() {
+        if (registered)
+            throw UnsupportedOperationException("Config has already been registered!")
+
+        AutoConfig.register(DaFlightConfig::class.java) { config, clz ->
+            GsonConfigSerializer(config, clz)
+        }
+
+        registered = true
     }
 }

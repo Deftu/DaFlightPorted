@@ -31,7 +31,7 @@ object DaFlight : ClientModInitializer {
     var currentServerName = ""
 
     override fun onInitializeClient() {
-        DaFlightConfig.register()
+        DaFlightConfigBootstrap.register()
         HudHandler.initialize()
         InputHandler.initialize()
 
@@ -41,7 +41,7 @@ object DaFlight : ClientModInitializer {
     @JvmStatic
     fun isPlayerPresent() = player != null
     @JvmStatic
-    fun isGameUnfocused() = MinecraftClient.getInstance().isPaused || MinecraftClient.getInstance().isWindowFocused
+    fun isGameInactive() = MinecraftClient.getInstance().isPaused || !MinecraftClient.getInstance().isWindowFocused
     @JvmStatic
     fun getPlayerForwardMovement() = if (isPlayerPresent()) player!!.input.movementForward else 0f
     @JvmStatic

@@ -17,6 +17,9 @@ object MovementHandler {
     private var flyBoosting = false
     private var sprintBoosting = false
 
+    private var ascending = false
+    private var descending = false
+
     @JvmStatic
     fun reset() {
         flying = false
@@ -72,6 +75,14 @@ object MovementHandler {
         sprintBoosting = state
     }
 
+    fun setAscending(state: Boolean) {
+        ascending = state
+    }
+
+    fun setDescending(state: Boolean) {
+        descending = state
+    }
+
     @JvmStatic
     fun shouldDisableFov() = DaFlight.config.disableFov && flying
     @JvmStatic
@@ -91,10 +102,10 @@ object MovementHandler {
         vec.set(dx * moveForward, 0.0, dz * moveForward)
         vec.add(dz * moveStrafe * strafeMod, 0.0, -dx * moveStrafe * strafeMod)
 
-        if (!DaFlight.isGameUnfocused()) {
-            if (InputHandler.flyUpKeyBind.isPressed)
+        if (!DaFlight.isGameInactive()) {
+            if (ascending)
                 vec.add(0.0, ascendMod.toDouble(), 0.0)
-            if (InputHandler.flyDownKeyBind.isPressed)
+            if (descending)
                 vec.add(0.0, -ascendMod.toDouble(), 0.0)
         }
 
@@ -112,7 +123,7 @@ object MovementHandler {
     private fun moveSprinting(vec: Vector3D, rotation: Rotation) {
         val strafeMod = DaFlight.config.strafeModifier
         val boost = if (sprintBoosting) DaFlight.config.sprintBoost else 1f
-        val speed = (DaFlight.config.sprintSpeed * boost).coerceAtLeast(maxWalkSpeed)
+        val speed = (DaFlight.config.sprintSpeed * boost).coerceAtMost(maxWalkSpeed)
 
         val rads = Math.toRadians(rotation.yaw.toDouble())
         val dx = -sin(rads)
