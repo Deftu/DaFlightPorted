@@ -14,12 +14,12 @@ class ToggleKeyBinding(
     private var toggle = false
 
     fun isToggled(): Boolean {
-        if (isPressed) {
+        return if (isPressed) {
             toggle = true
-            return false
+            false
         } else if (toggle) {
             toggle = false
-            return true
-        } else return false
+            true
+        } else false
     }
 }
