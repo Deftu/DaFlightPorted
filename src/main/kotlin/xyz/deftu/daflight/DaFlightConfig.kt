@@ -12,6 +12,7 @@ class DaFlightConfig : ConfigData {
     var toggle = true
     var hud = true
     var flyMode = FlightMode.NORMAL
+
     @ConfigEntry.Gui.Excluded
     var disableFov = true
 

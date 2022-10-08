@@ -1,8 +1,8 @@
 {
     "text.autoconfig.daflight.title": "DaFlight",
 
-    "text.autoconfig.daflight.option.toggle": "Toggle",
-    "text.autoconfig.daflight.option.hud": "HUD Toggle",
+    "text.autoconfig.daflight.option.toggle": "Enable Mod",
+    "text.autoconfig.daflight.option.hud": "Show HUD",
 
     "text.autoconfig.daflight.option.strafeModifier": "Strafe Modifier",
     "text.autoconfig.daflight.option.verticalModifier": "Ascend Modifier",
@@ -12,7 +12,7 @@
     "text.autoconfig.daflight.option.flySpeed": "Fly Speed",
     "text.autoconfig.daflight.option.flyMode": "Flight Mode",
 
-    "text.autoconfig.daflight.option.input": "Input",
+    "text.autoconfig.daflight.option.input": "Input Toggles",
     "text.autoconfig.daflight.option.input.flyKeyBind": "Fly KeyBind",
     "text.autoconfig.daflight.option.input.sprintKeyBind": "Sprint KeyBind",
     "text.autoconfig.daflight.option.input.boostKeyBind": "Boost KeyBind",

@@ -3,11 +3,12 @@ package xyz.deftu.daflight.handlers
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.minecraft.client.option.KeyBinding
+import net.minecraft.client.option.StickyKeyBinding
 import net.minecraft.client.util.InputUtil
 import xyz.deftu.daflight.DaFlight
+import xyz.deftu.daflight.utils.ToggleKeyBinding
 
 object InputHandler {
-    private var keyBindPressToggle = mutableMapOf<KeyBinding, Pair<Long, Boolean>>()
     @JvmStatic
     lateinit var flyKeyBind: KeyBinding
         private set
@@ -25,9 +26,9 @@ object InputHandler {
         private set
 
     fun initialize() {
-        flyKeyBind = setupKeybind("Fly", InputUtil.GLFW_KEY_G)
-        sprintKeyBind = setupKeybind("Sprint", InputUtil.GLFW_KEY_R)
-        boostKeyBind = setupKeybind("Fly Boost", InputUtil.GLFW_KEY_R)
+        flyKeyBind = setupKeybind("Fly", InputUtil.GLFW_KEY_G, true)
+        sprintKeyBind = setupKeybind("Sprint", InputUtil.GLFW_KEY_R, true)
+        boostKeyBind = setupKeybind("Fly Boost", InputUtil.GLFW_KEY_R, true)
         flyUpKeyBind = setupKeybind("Fly Up", InputUtil.GLFW_KEY_UP)
         flyDownKeyBind = setupKeybind("Fly Down", InputUtil.GLFW_KEY_DOWN)
 
@@ -58,7 +59,7 @@ object InputHandler {
 
         if (config.input.sprintKeyBind) {
             MovementHandler.setSprinting(if (sprintKeyBind.isTogglePressed) !MovementHandler.isSprinting() && DaFlight.isFlyingAllowed() else MovementHandler.isSprinting())
-        } else MovementHandler.setFlying(sprintKeyBind.isPressed && DaFlight.isFlyingAllowed())
+        } else MovementHandler.setSprinting(sprintKeyBind.isPressed && DaFlight.isFlyingAllowed())
 
         if (config.input.boostKeyBind) {
             if (boostKeyBind.isPressed) {
@@ -67,7 +68,7 @@ object InputHandler {
             }
         } else {
             MovementHandler.setFlyBoosting(if (MovementHandler.isFlying()) boostKeyBind.isPressed else MovementHandler.isFlyBoosting())
-            MovementHandler.setSprintBoosting(if (!MovementHandler.isFlyBoosting() && MovementHandler.isSprinting()) boostKeyBind.isPressed else MovementHandler.isSprintBoosting())
+            MovementHandler.setSprintBoosting(if (!MovementHandler.isFlying() && MovementHandler.isSprinting()) boostKeyBind.isPressed else MovementHandler.isSprintBoosting())
         }
 
         if (!DaFlight.isFlyingAllowed()) {
@@ -92,20 +93,8 @@ object InputHandler {
         }
     }
 
-    /*
-     * This so jank, but I couldn't find another solution... :/
-     */
     private val KeyBinding.isTogglePressed: Boolean
-        get() {
-            val state = keyBindPressToggle[this] ?: return false
-            return if (isPressed && System.currentTimeMillis() - state.first > 50) {
-                val value = !state.second
-                keyBindPressToggle[this] = System.currentTimeMillis() to value
-                !value
-            } else state.second
-        }
-    private fun setupKeybind(name: String, key: Int): KeyBinding =
-        KeyBinding(name, key, DaFlight.NAME).also(KeyBindingHelper::registerKeyBinding).also {
-            keyBindPressToggle[it] = System.currentTimeMillis() to false
-        }
+        get() = (this as ToggleKeyBinding).isToggled()
+    private fun setupKeybind(name: String, key: Int, toggleable: Boolean = false): KeyBinding =
+        (if (toggleable) ToggleKeyBinding(name, DaFlight.NAME, key) else KeyBinding(name, key, DaFlight.NAME)).also(KeyBindingHelper::registerKeyBinding)
 }
