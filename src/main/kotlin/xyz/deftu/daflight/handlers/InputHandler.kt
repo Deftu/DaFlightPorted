@@ -5,18 +5,20 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.option.StickyKeyBinding
 import net.minecraft.client.util.InputUtil
+import org.lwjgl.glfw.GLFW
 import xyz.deftu.daflight.DaFlight
+import xyz.deftu.daflight.events.KeyInputEvent
 import xyz.deftu.daflight.utils.ToggleKeyBinding
 
 object InputHandler {
     @JvmStatic
-    lateinit var flyKeyBind: KeyBinding
+    lateinit var flyKeyBind: ToggleKeyBinding
         private set
     @JvmStatic
-    lateinit var sprintKeyBind: KeyBinding
+    lateinit var sprintKeyBind: ToggleKeyBinding
         private set
     @JvmStatic
-    lateinit var boostKeyBind: KeyBinding
+    lateinit var boostKeyBind: ToggleKeyBinding
         private set
     @JvmStatic
     lateinit var flyUpKeyBind: KeyBinding
@@ -26,11 +28,21 @@ object InputHandler {
         private set
 
     fun initialize() {
-        flyKeyBind = setupKeybind("Fly", InputUtil.GLFW_KEY_G, true)
-        sprintKeyBind = setupKeybind("Sprint", InputUtil.GLFW_KEY_R, true)
-        boostKeyBind = setupKeybind("Fly Boost", InputUtil.GLFW_KEY_R, true)
-        flyUpKeyBind = setupKeybind("Fly Up", InputUtil.GLFW_KEY_UP)
-        flyDownKeyBind = setupKeybind("Fly Down", InputUtil.GLFW_KEY_DOWN)
+        flyKeyBind = ToggleKeyBinding("Fly", DaFlight.ID, InputUtil.GLFW_KEY_G).setup()
+        sprintKeyBind = ToggleKeyBinding("Sprint", DaFlight.ID, InputUtil.GLFW_KEY_R).setup()
+        boostKeyBind = ToggleKeyBinding("Fly Boost", DaFlight.ID, InputUtil.GLFW_KEY_R).setup()
+        flyUpKeyBind = KeyBinding("Fly Up", InputUtil.GLFW_KEY_UP, DaFlight.ID).setup()
+        flyDownKeyBind = KeyBinding("Fly Down", InputUtil.GLFW_KEY_DOWN, DaFlight.ID).setup()
+
+        KeyInputEvent.EVENT.register { key, scancode, action, _ ->
+            if (action != GLFW.GLFW_RELEASE)
+                return@register
+
+            println("hello")
+            if (flyKeyBind.matchesKey(key, scancode)) flyKeyBind.toggle()
+            if (sprintKeyBind.matchesKey(key, scancode)) sprintKeyBind.toggle()
+            if (boostKeyBind.matchesKey(key, scancode)) boostKeyBind.toggle()
+        }
 
         ClientTickEvents.END_CLIENT_TICK.register { client ->
             if (client.world == null || DaFlight.isGameInactive())
@@ -94,7 +106,7 @@ object InputHandler {
     }
 
     private val KeyBinding.isTogglePressed: Boolean
-        get() = (this as ToggleKeyBinding).isToggled()
-    private fun setupKeybind(name: String, key: Int, toggleable: Boolean = false): KeyBinding =
-        (if (toggleable) ToggleKeyBinding(name, DaFlight.NAME, key) else KeyBinding(name, key, DaFlight.NAME)).also(KeyBindingHelper::registerKeyBinding)
+        get() = (this as ToggleKeyBinding).toggle
+    private fun <T : KeyBinding> T.setup() =
+        KeyBindingHelper.registerKeyBinding(this) as T
 }

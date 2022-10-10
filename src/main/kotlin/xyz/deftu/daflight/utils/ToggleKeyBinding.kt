@@ -11,15 +11,15 @@ class ToggleKeyBinding(
     code,
     category
 ) {
-    private var toggle = false
+    var toggle = false
+        private set
+        get() {
+            val value = field
+            field = false
+            return value
+        }
 
-    fun isToggled(): Boolean {
-        return if (isPressed) {
-            toggle = true
-            false
-        } else if (toggle) {
-            toggle = false
-            true
-        } else false
+    fun toggle() {
+        toggle = !toggle
     }
 }
