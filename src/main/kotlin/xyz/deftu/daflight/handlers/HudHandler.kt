@@ -1,5 +1,9 @@
 package xyz.deftu.daflight.handlers
 
+//#if MC >= 1.20
+//$$ import net.minecraft.client.gui.DrawContext
+//#endif
+
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.font.TextRenderer
@@ -11,23 +15,43 @@ object HudHandler {
         get() = MinecraftClient.getInstance().textRenderer
 
     fun initialize() {
-        HudRenderCallback.EVENT.register { stack, tickDelta ->
-            render(stack)
+        HudRenderCallback.EVENT.register { ctx, tickDelta ->
+            render(ctx)
         }
     }
 
-    private fun render(stack: MatrixStack) {
-        if (DaFlight.config.hud && !DaFlight.isGameInactive() && !MinecraftClient.getInstance().options.debugEnabled) {
+    //#if MC <= 1.19.4
+    private fun render(ctx: MatrixStack) {
+    //#else
+    //$$ private fun render(ctx: DrawContext) {
+    //#endif
+        val hasDebugInfo =
+            //#if MC <= 1.20.1
+            MinecraftClient.getInstance().options.debugEnabled
+            //#else
+            //$$ MinecraftClient.getInstance().debugHud.shouldShowDebugHud()
+            //#endif
+
+        if (DaFlight.config.hud && !DaFlight.isGameInactive() && !hasDebugInfo) {
             val x = 5f
             var y = 5f
 
             if (MovementHandler.isFlying()) {
-                textRenderer.draw(stack, "flying" + if (MovementHandler.isFlyBoosting()) "+" else "", x, y, 0xFFFFFF)
+                //#if MC <= 1.19.4
+                textRenderer.draw(ctx, "flying" + if (MovementHandler.isFlyBoosting()) "+" else "", x, y, 0xFFFFFF)
+                //#else
+                //$$ textRenderer.draw("flying" + if (MovementHandler.isFlyBoosting()) "+" else "", x, y, 0xFFFFFF, true, ctx.matrices.peek().positionMatrix, ctx.vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0xFFFFFF, 0xFFFFFF)
+                //#endif
+
                 y += 9
             }
 
             if (MovementHandler.isSprinting()) {
-                textRenderer.draw(stack, "sprinting" + if (MovementHandler.isSprintBoosting()) "+" else "", x, y, 0xFFFFFF)
+                //#if MC <= 1.19.4
+                textRenderer.draw(ctx, "sprinting" + if (MovementHandler.isSprintBoosting()) "+" else "", x, y, 0xFFFFFF)
+                //#else
+                //$$ textRenderer.draw("sprinting" + if (MovementHandler.isSprintBoosting()) "+" else "", x, y, 0xFFFFFF, true, ctx.matrices.peek().positionMatrix, ctx.vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0xFFFFFF, 0xFFFFFF)
+                //#endif
             }
         }
     }

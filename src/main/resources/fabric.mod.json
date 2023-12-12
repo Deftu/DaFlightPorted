@@ -3,7 +3,7 @@
     "id": "${mod_id}",
     "version": "${mod_version}",
     "name": "${mod_name}",
-    "description": "Made for Aedesius#3652 - 05/10/22",
+    "description": "",
     "authors": [
         "Deftu"
     ],

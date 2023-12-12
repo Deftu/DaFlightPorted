@@ -1,10 +1,51 @@
+import dev.deftu.gradle.utils.GameSide
+
 plugins {
-    id("xyz.unifycraft.gradle.multiversion-root")
+    java
+    kotlin("jvm")
+    kotlin("plugin.serialization")
+    id("dev.deftu.gradle.multiversion")
+    id("dev.deftu.gradle.tools")
+    id("dev.deftu.gradle.tools.blossom")
+    id("dev.deftu.gradle.tools.resources")
+    id("dev.deftu.gradle.tools.minecraft.loom")
 }
 
-preprocess {
-    val fabric11902 = createNode("1.19.2-fabric", 11902, "yarn")
-    val fabric11802 = createNode("1.18.2-fabric", 11802, "yarn")
+toolkitLoomHelper {
+    disableRunConfigs(GameSide.SERVER)
+}
 
-    fabric11902.link(fabric11802)
+repositories {
+    maven("https://maven.terraformersmc.com/releases")
+    maven("https://maven.shedaniel.me/")
+    maven("https://maven.isxander.dev/releases")
+    mavenCentral()
+}
+
+dependencies {
+    implementation(kotlin("stdlib"))
+
+    modImplementation("net.fabricmc.fabric-api:fabric-api:${mcData.fabricApiVersion}")
+    modImplementation("net.fabricmc:fabric-language-kotlin:1.8.2+kotlin.1.7.10") {
+        exclude(group = "net.fabricmc.fabric-api")
+        exclude(group = "net.fabricmc")
+    }
+
+    modApi("me.shedaniel.cloth:cloth-config-fabric:8.2.88") {
+        exclude(group = "net.fabricmc.fabric-api")
+        exclude(group = "net.fabricmc")
+    }
+    modImplementation(mcData.modMenuDependency) {
+        exclude(group = "net.fabricmc.fabric-api")
+        exclude(group = "net.fabricmc")
+    }
+}
+
+tasks.remapJar {
+    val dest = rootProject.layout.buildDirectory.asFile.get().resolve("versions")
+    if (!dest.exists()) {
+        dest.mkdirs()
+    }
+
+    destinationDirectory.set(dest)
 }

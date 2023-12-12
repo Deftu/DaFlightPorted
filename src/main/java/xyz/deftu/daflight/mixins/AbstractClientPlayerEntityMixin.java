@@ -23,9 +23,21 @@ public abstract class AbstractClientPlayerEntityMixin extends PlayerEntity {
     private final Rotation dfp$rotation = new Rotation();
 
     public AbstractClientPlayerEntityMixin(World world) {
-        super(world, new BlockPos(0, 0, 0), 0, new GameProfile(null, null), null);
+        //#if MC <= 1.19.4
+        super(
+                world,
+                new BlockPos(0, 0, 0),
+                0, new GameProfile(null, null)
+                //#if MC >= 1.19.2
+                , null
+                //#endif
+        );
+        //#else
+        //$$ super(world, new BlockPos(0, 0, 0), 0, new GameProfile(null, null));
+        //#endif
     }
 
+    @Override
     public void move(MovementType type, Vec3d vec) {
         if ((PlayerEntity) this == MinecraftClient.getInstance().player) {
             dfp$updateFlyStatus();

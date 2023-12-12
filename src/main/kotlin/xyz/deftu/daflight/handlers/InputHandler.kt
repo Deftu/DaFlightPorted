@@ -2,8 +2,8 @@ package xyz.deftu.daflight.handlers
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.KeyBinding
-import net.minecraft.client.option.StickyKeyBinding
 import net.minecraft.client.util.InputUtil
 import org.lwjgl.glfw.GLFW
 import xyz.deftu.daflight.DaFlight
@@ -35,18 +35,25 @@ object InputHandler {
         flyDownKeyBind = KeyBinding("Fly Down", InputUtil.GLFW_KEY_DOWN, DaFlight.ID).setup()
 
         KeyInputEvent.EVENT.register { key, scancode, action, _ ->
-            if (action != GLFW.GLFW_RELEASE)
-                return@register
+            val client = MinecraftClient.getInstance()
+            if (
+                action != GLFW.GLFW_RELEASE ||
+                client.world == null ||
+                client.currentScreen != null ||
+                DaFlight.isGameInactive()
+            ) return@register
 
-            println("hello")
             if (flyKeyBind.matchesKey(key, scancode)) flyKeyBind.toggle()
             if (sprintKeyBind.matchesKey(key, scancode)) sprintKeyBind.toggle()
             if (boostKeyBind.matchesKey(key, scancode)) boostKeyBind.toggle()
         }
 
         ClientTickEvents.END_CLIENT_TICK.register { client ->
-            if (client.world == null || DaFlight.isGameInactive())
-                return@register
+            if (
+                client.world == null ||
+                client.currentScreen != null ||
+                DaFlight.isGameInactive()
+            ) return@register
 
             handle()
         }
@@ -58,7 +65,7 @@ object InputHandler {
             return
 
         val wasFlying = MovementHandler.isFlying()
-        val wasSprintng = MovementHandler.isSprinting()
+        val wasSprinting = MovementHandler.isSprinting()
 
         if (config.input.flyKeyBind) {
             MovementHandler.setFlying(if (flyKeyBind.isTogglePressed) !MovementHandler.isFlying() && DaFlight.isFlyingAllowed() else MovementHandler.isFlying())
@@ -100,7 +107,7 @@ object InputHandler {
             DaFlight.player?.sendAbilitiesUpdate()
         }
 
-        if (wasSprintng != MovementHandler.isSprinting()) {
+        if (wasSprinting != MovementHandler.isSprinting()) {
             DaFlight.setPlayerInvincible(MovementHandler.isFlying() || MovementHandler.isSprinting())
         }
     }
