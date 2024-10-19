@@ -11,6 +11,10 @@ plugins {
     id("dev.deftu.gradle.tools.minecraft.loom")
 }
 
+toolkitMultiversion {
+    moveBuildsToRootProject.set(true)
+}
+
 toolkitLoomHelper {
     disableRunConfigs(GameSide.SERVER)
 }
