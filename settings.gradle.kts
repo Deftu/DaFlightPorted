@@ -8,7 +8,7 @@ pluginManagement {
         mavenCentral()
 
         // Repositories
-        maven("https://maven.deftu.xyz/releases")
+        maven("https://maven.deftu.dev/releases")
         maven("https://maven.fabricmc.net")
         maven("https://maven.architectury.dev/")
         maven("https://maven.minecraftforge.net")
@@ -18,16 +18,16 @@ pluginManagement {
         maven("https://jitpack.io/")
 
         // Snapshots
-        maven("https://maven.deftu.xyz/snapshots")
+        maven("https://maven.deftu.dev/snapshots")
         maven("https://s01.oss.sonatype.org/content/groups/public/")
     }
 
     plugins {
-        val kotlin = "1.6.21"
+        val kotlin = "2.0.20"
         kotlin("jvm") version(kotlin)
         kotlin("plugin.serialization") version(kotlin)
 
-        val dgt = "1.22.0"
+        val dgt = "2.11.2"
         id("dev.deftu.gradle.multiversion-root") version(dgt)
     }
 }

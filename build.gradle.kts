@@ -6,7 +6,7 @@ plugins {
     kotlin("plugin.serialization")
     id("dev.deftu.gradle.multiversion")
     id("dev.deftu.gradle.tools")
-    id("dev.deftu.gradle.tools.blossom")
+    id("dev.deftu.gradle.tools.bloom")
     id("dev.deftu.gradle.tools.resources")
     id("dev.deftu.gradle.tools.minecraft.loom")
 }
@@ -25,8 +25,8 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
 
-    modImplementation("net.fabricmc.fabric-api:fabric-api:${mcData.fabricApiVersion}")
-    modImplementation("net.fabricmc:fabric-language-kotlin:1.8.2+kotlin.1.7.10") {
+    modImplementation("net.fabricmc.fabric-api:fabric-api:${mcData.dependencies.fabric.fabricApiVersion}")
+    modImplementation("net.fabricmc:fabric-language-kotlin:${mcData.dependencies.fabric.fabricLanguageKotlinVersion}") {
         exclude(group = "net.fabricmc.fabric-api")
         exclude(group = "net.fabricmc")
     }
@@ -35,7 +35,7 @@ dependencies {
         exclude(group = "net.fabricmc.fabric-api")
         exclude(group = "net.fabricmc")
     }
-    modImplementation(mcData.modMenuDependency) {
+    modImplementation(mcData.dependencies.fabric.modMenuDependency) {
         exclude(group = "net.fabricmc.fabric-api")
         exclude(group = "net.fabricmc")
     }

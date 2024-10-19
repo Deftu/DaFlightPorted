@@ -16,16 +16,3 @@ preprocess {
     fabric_1_20_01.link(fabric_1_19_02)
     fabric_1_19_02.link(fabric_1_18_02)
 }
-
-val buildVersions by tasks.registering {
-    listOf(
-        "1.18.2-fabric",
-        "1.19.2-fabric",
-        "1.20.1-fabric",
-        "1.20.2-fabric",
-        "1.20.3-fabric",
-        "1.20.4-fabric"
-    ).forEach { version ->
-        dependsOn(":$version:build")
-    }
-}
