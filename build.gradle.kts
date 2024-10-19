@@ -1,4 +1,5 @@
 import dev.deftu.gradle.utils.GameSide
+import dev.deftu.gradle.utils.MinecraftVersion
 
 plugins {
     java
@@ -35,7 +36,18 @@ dependencies {
         exclude(group = "net.fabricmc")
     }
 
-    modApi("me.shedaniel.cloth:cloth-config-fabric:8.2.88") {
+    modApi("me.shedaniel.cloth:cloth-config-fabric:${when (mcData.version) {
+        MinecraftVersion.VERSION_1_18_2 -> "6.5.102"
+        MinecraftVersion.VERSION_1_19_2 -> "8.3.134"
+        MinecraftVersion.VERSION_1_20_1 -> "11.1.136"
+        MinecraftVersion.VERSION_1_20_2 -> "12.0.137"
+        MinecraftVersion.VERSION_1_20_3 -> "13.0.138"
+        MinecraftVersion.VERSION_1_20_4 -> "13.0.138"
+        MinecraftVersion.VERSION_1_20_6 -> "14.0.139"
+        MinecraftVersion.VERSION_1_21 -> "15.0.140"
+        MinecraftVersion.VERSION_1_21_1 -> "15.0.140"
+        else -> throw IllegalStateException("Unsupported Minecraft version: ${mcData.version}")
+    }}") {
         exclude(group = "net.fabricmc.fabric-api")
         exclude(group = "net.fabricmc")
     }
