@@ -1,4 +1,4 @@
-package xyz.deftu.daflight.utils
+package dev.deftu.daflight.utils
 
 import kotlin.math.sqrt
 

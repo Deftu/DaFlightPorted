@@ -1,4 +1,4 @@
-package xyz.deftu.daflight.utils
+package dev.deftu.daflight.utils
 
 import net.minecraft.client.option.KeyBinding
 

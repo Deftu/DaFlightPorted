@@ -1,4 +1,4 @@
-package xyz.deftu.daflight.mixins;
+package dev.deftu.daflight.mixins;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.MinecraftClient;
@@ -10,10 +10,10 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import xyz.deftu.daflight.DaFlight;
-import xyz.deftu.daflight.handlers.MovementHandler;
-import xyz.deftu.daflight.utils.Rotation;
-import xyz.deftu.daflight.utils.Vector3D;
+import dev.deftu.daflight.DaFlight;
+import dev.deftu.daflight.handlers.MovementHandler;
+import dev.deftu.daflight.utils.Rotation;
+import dev.deftu.daflight.utils.Vector3D;
 
 @Mixin({AbstractClientPlayerEntity.class})
 public abstract class AbstractClientPlayerEntityMixin extends PlayerEntity {

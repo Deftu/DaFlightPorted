@@ -1,4 +1,4 @@
-package xyz.deftu.daflight.mixins;
+package dev.deftu.daflight.mixins;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.MinecraftClient;
@@ -10,8 +10,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.deftu.daflight.DaFlight;
-import xyz.deftu.daflight.handlers.MovementHandler;
+import dev.deftu.daflight.DaFlight;
+import dev.deftu.daflight.handlers.MovementHandler;
 
 @Mixin({ClientPlayerEntity.class})
 public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {

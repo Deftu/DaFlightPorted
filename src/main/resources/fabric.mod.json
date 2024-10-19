@@ -13,13 +13,13 @@
         "client": [
             {
                 "adapter": "kotlin",
-                "value": "xyz.deftu.daflight.DaFlight"
+                "value": "dev.deftu.daflight.DaFlight"
             }
         ],
         "modmenu": [
             {
                 "adapter": "kotlin",
-                "value": "xyz.deftu.daflight.utils.ModMenuIntegration"
+                "value": "dev.deftu.daflight.utils.ModMenuIntegration"
             }
         ]
     },

@@ -1,4 +1,4 @@
-package xyz.deftu.daflight.handlers
+package dev.deftu.daflight.handlers
 
 //#if MC >= 1.20
 //$$ import net.minecraft.client.gui.DrawContext
@@ -8,7 +8,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.font.TextRenderer
 import net.minecraft.client.util.math.MatrixStack
-import xyz.deftu.daflight.DaFlight
+import dev.deftu.daflight.DaFlight
 
 object HudHandler {
     private val textRenderer: TextRenderer

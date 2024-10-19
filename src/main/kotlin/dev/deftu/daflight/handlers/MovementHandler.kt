@@ -1,9 +1,9 @@
-package xyz.deftu.daflight.handlers
+package dev.deftu.daflight.handlers
 
-import xyz.deftu.daflight.DaFlight
-import xyz.deftu.daflight.utils.FlightMode
-import xyz.deftu.daflight.utils.Rotation
-import xyz.deftu.daflight.utils.Vector3D
+import dev.deftu.daflight.DaFlight
+import dev.deftu.daflight.utils.FlightMode
+import dev.deftu.daflight.utils.Rotation
+import dev.deftu.daflight.utils.Vector3D
 import kotlin.math.*
 
 object MovementHandler {

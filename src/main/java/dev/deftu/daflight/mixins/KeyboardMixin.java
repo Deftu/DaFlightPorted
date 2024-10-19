@@ -1,4 +1,4 @@
-package xyz.deftu.daflight.mixins;
+package dev.deftu.daflight.mixins;
 
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.deftu.daflight.events.KeyInputEvent;
+import dev.deftu.daflight.events.KeyInputEvent;
 
 @Mixin({Keyboard.class})
 public class KeyboardMixin {

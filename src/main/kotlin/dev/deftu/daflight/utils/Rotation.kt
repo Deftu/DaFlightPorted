@@ -1,4 +1,4 @@
-package xyz.deftu.daflight.utils
+package dev.deftu.daflight.utils
 
 data class Rotation(
     var pitch: Float,

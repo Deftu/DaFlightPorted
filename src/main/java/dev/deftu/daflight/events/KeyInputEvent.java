@@ -1,4 +1,4 @@
-package xyz.deftu.daflight.events;
+package dev.deftu.daflight.events;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;

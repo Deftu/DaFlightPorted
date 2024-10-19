@@ -1,4 +1,4 @@
-package xyz.deftu.daflight.handlers
+package dev.deftu.daflight.handlers
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
@@ -6,9 +6,9 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.util.InputUtil
 import org.lwjgl.glfw.GLFW
-import xyz.deftu.daflight.DaFlight
-import xyz.deftu.daflight.events.KeyInputEvent
-import xyz.deftu.daflight.utils.ToggleKeyBinding
+import dev.deftu.daflight.DaFlight
+import dev.deftu.daflight.events.KeyInputEvent
+import dev.deftu.daflight.utils.ToggleKeyBinding
 
 object InputHandler {
     @JvmStatic

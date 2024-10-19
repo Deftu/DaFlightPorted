@@ -1,11 +1,11 @@
-package xyz.deftu.daflight
+package dev.deftu.daflight
 
 import me.shedaniel.autoconfig.AutoConfig
 import me.shedaniel.autoconfig.ConfigData
 import me.shedaniel.autoconfig.annotation.Config
 import me.shedaniel.autoconfig.annotation.ConfigEntry
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer
-import xyz.deftu.daflight.utils.FlightMode
+import dev.deftu.daflight.utils.FlightMode
 
 @Config(name = DaFlight.ID)
 class DaFlightConfig : ConfigData {
