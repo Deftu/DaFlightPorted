@@ -43,10 +43,13 @@ dependencies {
         MinecraftVersion.VERSION_1_20_1 -> "11.1.136"
         MinecraftVersion.VERSION_1_20_2 -> "12.0.137"
         MinecraftVersion.VERSION_1_20_3 -> "13.0.138"
-//        MinecraftVersion.VERSION_1_20_4 -> "13.0.138"
-//        MinecraftVersion.VERSION_1_20_6 -> "14.0.139"
-//        MinecraftVersion.VERSION_1_21 -> "15.0.140"
-//        MinecraftVersion.VERSION_1_21_1 -> "15.0.140"
+        MinecraftVersion.VERSION_1_20_4 -> "13.0.138"
+        MinecraftVersion.VERSION_1_20_6 -> "14.0.139"
+        MinecraftVersion.VERSION_1_21 -> "15.0.140"
+        MinecraftVersion.VERSION_1_21_1 -> "15.0.140"
+        MinecraftVersion.VERSION_1_21_2 -> "16.0.143"
+        MinecraftVersion.VERSION_1_21_3 -> "16.0.143"
+        MinecraftVersion.VERSION_1_21_4 -> "17.0.144"
         else -> "13.0.138"
     }}") {
         exclude(group = "net.fabricmc.fabric-api")

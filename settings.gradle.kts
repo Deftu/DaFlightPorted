@@ -23,11 +23,11 @@ pluginManagement {
     }
 
     plugins {
-        val kotlin = "2.0.20"
+        val kotlin = "2.1.0"
         kotlin("jvm") version(kotlin)
         kotlin("plugin.serialization") version(kotlin)
 
-        val dgt = "2.11.2"
+        val dgt = "2.19.1"
         id("dev.deftu.gradle.multiversion-root") version(dgt)
     }
 }
@@ -46,7 +46,9 @@ listOf(
     "1.20.4-fabric",
     "1.20.6-fabric",
     "1.21-fabric",
-    "1.21.1-fabric"
+    "1.21.1-fabric",
+    "1.21.2-fabric",
+    "1.21.4-fabric"
 ).forEach { version ->
     include(":$version")
     project(":$version").apply {

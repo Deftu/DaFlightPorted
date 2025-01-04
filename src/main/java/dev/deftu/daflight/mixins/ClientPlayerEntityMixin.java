@@ -30,8 +30,17 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
     }
 
     @Override
-    public float getFovMultiplier() {
-        return MovementHandler.shouldDisableFov() ? 1f : super.getFovMultiplier();
+    public float getFovMultiplier(
+            //#if MC >= 1.21.2
+            //$$ boolean bl,
+            //$$ float f
+            //#endif
+    ) {
+        return MovementHandler.shouldDisableFov() ? 1f : super.getFovMultiplier(
+                //#if MC >= 1.21.2
+                //$$ bl, f
+                //#endif
+        );
     }
 
     @Override

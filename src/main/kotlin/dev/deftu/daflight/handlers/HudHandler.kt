@@ -37,7 +37,9 @@ object HudHandler {
             var y = 5f
 
             if (MovementHandler.isFlying()) {
-                //#if MC <= 1.19.4
+                //#if MC >= 1.21.2
+                //$$ ctx.drawText(textRenderer, "flying" + if (MovementHandler.isFlyBoosting()) "+" else "", x.toInt(), y.toInt(), 0xFFFFFF, true)
+                //#elseif MC <= 1.19.4
                 textRenderer.draw(ctx, "flying" + if (MovementHandler.isFlyBoosting()) "+" else "", x, y, 0xFFFFFF)
                 //#else
                 //$$ textRenderer.draw("flying" + if (MovementHandler.isFlyBoosting()) "+" else "", x, y, 0xFFFFFF, true, ctx.matrices.peek().positionMatrix, ctx.vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0xFFFFFF, 0xFFFFFF)
@@ -47,7 +49,9 @@ object HudHandler {
             }
 
             if (MovementHandler.isSprinting()) {
-                //#if MC <= 1.19.4
+                //#if MC >= 1.21.2
+                //$$ ctx.drawText(textRenderer, "sprinting" + if (MovementHandler.isSprintBoosting()) "+" else "", x.toInt(), y.toInt(), 0xFFFFFF, true)
+                //#elseif MC <= 1.19.4
                 textRenderer.draw(ctx, "sprinting" + if (MovementHandler.isSprintBoosting()) "+" else "", x, y, 0xFFFFFF)
                 //#else
                 //$$ textRenderer.draw("sprinting" + if (MovementHandler.isSprintBoosting()) "+" else "", x, y, 0xFFFFFF, true, ctx.matrices.peek().positionMatrix, ctx.vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0xFFFFFF, 0xFFFFFF)
